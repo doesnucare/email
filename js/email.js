@@ -110,6 +110,7 @@ const SIGNATURE = (name, position) =>
 ${name},
 ${position}`
 
+
 function generateEmail(name, position, blurb) {
     var subject = Sentencer.make(choice(SUBJECTS));
     var body_raw = 
@@ -127,7 +128,11 @@ ${SIGNATURE(name, position)}`
 
     var body = Sentencer.make(body_raw);
 
-    return getMailtoUrl(EMAILS, subject, body);
+    return {
+        to: EMAILS,
+        subject: subject,
+        body: body
+    }
 }
 
 var Sentencer = require('sentencer');
