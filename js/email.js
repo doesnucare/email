@@ -1,23 +1,26 @@
+//Generate mailto URL with recipient emails, subject, and body
 function getMailtoUrl(to, subject, body) {
     var args = [];
-    if (typeof subject !== 'undefined') {
-        args.push('subject=' + encodeURIComponent(subject));
+    if (typeof subject !== "undefined") {
+        args.push("subject=" + encodeURIComponent(subject));
     }
-    if (typeof body !== 'undefined') {
-        args.push('body=' + encodeURIComponent(body))
+    if (typeof body !== "undefined") {
+        args.push("body=" + encodeURIComponent(body))
     }
 
-    var url = 'mailto:' + encodeURIComponent(to);
+    var url = "mailto:" + to;
     if (args.length > 0) {
-        url += '?' + args.join('&');
+        url += "?" + args.join("&");
     }
     return url;
 }
 
+//Choose a random element from the items array
 function choice(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
+//Return a random permutation of the items array
 function shuffle(items) {
     var array = [...items];
     for (let i = array.length - 1; i > 0; i--) {
@@ -27,20 +30,23 @@ function shuffle(items) {
     return array;
 }
 
-function choice_action(items) {
-    return function() {
-        return choice(items);
-    };
+//Return an action which chooses a random element from the items array
+function choiceAction(items) {
+    return () => choice(items);
 }
 
-function list_shuffle_and(items) {
+//Return an action which randomly shuffles the items array
+// and then returns a string containing all of the items in a comma-separated list
+function shuffleCommaSepListAction(items) {
     return function() {
         var is = shuffle(items);
         return is.slice(0,-1).join(", ").concat(", and ", is.slice(-1));
     }
 }
 
-function list_shuffle_numbered(items) {
+//Return an action which randomly shuffles the items array
+// and then returns a string containing all of the items in a numbered list
+function shuffleNumberedList(items) {
     return function() {
         var is = shuffle(items);
         for (var i = 1; i <= is.length; i++) {
@@ -110,7 +116,8 @@ const SIGNATURE = (name, position) =>
 ${name},
 ${position}`
 
-
+//Given user's name, position, and reason for supporting NU CARE,
+// generate the to, subject, and body of a possible e-mail
 function generateEmail(name, position, blurb) {
     var subject = Sentencer.make(choice(SUBJECTS));
     var body_raw = 
@@ -135,25 +142,25 @@ ${SIGNATURE(name, position)}`
     }
 }
 
-var Sentencer = require('sentencer');
+var Sentencer = require("sentencer");
 
 Sentencer.configure({
     // additional actions for the template engine to use.
     // you can also redefine the preset actions here if you need to.
     // See the "Add your own actions" section below.
     actions: {
-      subject_opener: choice_action(["URGENT", "IMPORTANT", "PLEASE READ"]),
-      regarding: choice_action(["about", "regarding"]),
-      plans_for: choice_action([" plans for", ""]),
-      fall_reopening: choice_action(["fall re-opening", "re-opening in the fall"]),
-      just_safe: list_shuffle_and(["just", "safe", "conscientious"]),
-      testing_housing: list_shuffle_and(["testing", "housing", "dining", "the logistics of campus life"]),
-      students_faculty: list_shuffle_and(["students", "faculty", "staff", "neighboring communities"]),
-      club_topics: list_shuffle_and(["health", "sports", "politics", "architecture", "climate resiliency"]),
-      clubs: list_shuffle_numbered(CLUBS),
-      demands: list_shuffle_numbered(SHORT_DEMANDS),
-      northeastern: choice_action(["Northeastern", "the University"]),
-      covid: choice_action(["COVID-19", "COVID", "Coronavirus"]),
-      in_the: choice_action(["in the", "this"]),
+      subject_opener: choiceAction(["URGENT", "IMPORTANT", "PLEASE READ"]),
+      regarding: choiceAction(["about", "regarding"]),
+      plans_for: choiceAction([" plans for", ""]),
+      fall_reopening: choiceAction(["fall re-opening", "re-opening in the fall"]),
+      just_safe: shuffleCommaSepListAction(["just", "safe", "conscientious"]),
+      testing_housing: shuffleCommaSepListAction(["testing", "housing", "dining", "the logistics of campus life"]),
+      students_faculty: shuffleCommaSepListAction(["students", "faculty", "staff", "neighboring communities"]),
+      club_topics: shuffleCommaSepListAction(["health", "sports", "politics", "architecture", "climate resiliency"]),
+      clubs: shuffleNumberedList(CLUBS),
+      demands: shuffleNumberedList(SHORT_DEMANDS),
+      northeastern: choiceAction(["Northeastern", "the University"]),
+      covid: choiceAction(["COVID-19", "COVID", "Coronavirus"]),
+      in_the: choiceAction(["in the", "this"]),
     }
 });

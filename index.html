@@ -1,6 +1,6 @@
 <html class="no-js" lang="en-us">
   <head>
-    <meta charset="utf-8"><!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge'><![endif]-->
+    <meta charset="utf-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
     <title>Does NU CARE?</title>
     <meta name="description" content="Send an email to Northeastern administrators to support a safe and equitable reopening!">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -10,16 +10,13 @@
     <link rel="stylesheet" href="css/main.css">
     <meta name="theme-color" content="#EC1F27">
 
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#ec1f27">
-  <meta name="msapplication-TileColor" content="#ec1f27">
-  <meta name="theme-color" content="#ec1f27">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#ec1f27">
+    <meta name="msapplication-TileColor" content="#ec1f27">
+    <meta name="theme-color" content="#ec1f27">
 
     <!--<link rel="stylesheet" href="https://use.typekit.net/hqc5idp.css">-->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800&display=swap" rel="stylesheet"> 
@@ -74,11 +71,11 @@
               <textarea readonly id="email-body" rows="20"></textarea>
             </div>
               <!--<canvas id="canvas" width="1600" height="1600" style="max-width:100%; display:none"></canvas><img id="canvasImg" src="img/Example.png">-->
-              <div id="saveContainer" style="display:none">
+              <div id="save-container" style="display:none">
                 <p>
                   Email has been generated! Feel free to adjust it to your liking. When done, either copy and paste the fields into your favorite email client, or press the button below to automatically open an email ready-to-send!
                 </p>
-                <p><a class="button" id="download" onclick="openemail()">Open Email</a></p>
+                <p><a class="button" id="open">Open Email</a></p>
               </div>
             </div>
           </div>
@@ -90,18 +87,11 @@
         © 2020 NU CARE
       </p>
     </footer>
-
-
-    <!-- email modal -->
-    <div id="email-modal" class="modal">
-      <p>Thank you for supporting NU CARE! <strong>Can you take the next step and send an email to university administrators</strong> to urge them to adopt our demands?</p>
-      <button id="send-email">Send Email</button>
-    </div>
-        
   </body>
   <div class="js-warning">This page requires JavaScript! </div>
+  
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\\/script>')</script>
+  <script>window.jQuery || document.write("<script src="js/vendor/jquery-3.4.1.min.js"><\/script>")</script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
   <script src="js/vendor/sentencer.js"></script>
@@ -111,11 +101,11 @@
     document.documentElement.className = document.documentElement.className.replace("no-js","js");
   </script>
   <script>
-    $("#generate").on('click', function() {
-
-      name = $('#name-input').val().trim();
-      job = $('#job-input').val().trim();
-      quotation = $('#quotation').val().trim();
+    //When the user clicks "Generate Email", fill in the to, subject, and body textboxes and reveal #save-container div.
+    $("#generate").on("click", function() {
+      name = $("#name-input").val().trim();
+      job = $("#job-input").val().trim();
+      quotation = $("#quotation").val().trim();
 
       var components = generateEmail(name, job, quotation);
       
@@ -128,34 +118,17 @@
       $("#email-body").attr("readonly", false);
       
       
-      $("#saveContainer").css("display", "block");
+      $("#save-container").css("display", "block");
       return false;
     });
 
-  </script>
-  <script>
-    function readURL(input)
-    {
-    	$("#avatarImage").css("display", "block");
-
-    	if (input.files && input.files[0]) {
-    		var reader = new FileReader();
-
-    		reader.onload = function (e) {
-    			$("#avatarImage").attr('src', e.target.result);
-    		}
-
-    		reader.readAsDataURL(input.files[0]);
-    	}
-    }
-
-    function openemail() {
+    //When the user clicks "Open Email", open the mailto: link
+    $("#open").on("click", function() {
       window.open(getMailtoUrl(
         $("#email-to").val().trim(),
         $("#email-subject").val().trim(),
         $("#email-body").val().trim()));
       return false;
-    }
-
+    });
   </script>
 </html>
