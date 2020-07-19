@@ -164,3 +164,33 @@ Sentencer.configure({
       in_the: choiceAction(["in the", "this"]),
     }
 });
+
+//Fill in the textboxes for name, position, and the quote, if the information is supplied in the query parameters from the URL
+function fillTextboxesIn() {
+    //Dictionary holding the query parameters from the URL:
+    var queryParameters = {};
+
+    //Split the query string up by the ampersands:
+    var queryStringParts = window.location.search.substring(1).split("&");
+    //For each item, store the query parameter in the above dictionary:
+    queryStringParts.forEach(function(item) {
+        var twoParts = item.split("=");
+        if (twoParts.length != 2) {
+            console.log("Error parsing query parameter: "+item);
+            return;
+        }
+        queryParameters[twoParts[0]] = decodeURIComponent(twoParts[1]);
+    });
+
+    //If a name/job/quote was supplied, then fill in the corresponding textbox:
+    if (queryParameters.hasOwnProperty("name")) {
+        document.getElementById("name-input").value = queryParameters["name"];
+    }
+    if (queryParameters.hasOwnProperty("job")) {
+        document.getElementById("job-input").value = queryParameters["job"];
+    }
+    if (queryParameters.hasOwnProperty("quote")) {
+        document.getElementById("quotation").value = queryParameters["quote"];
+    }
+}
+fillTextboxesIn();
