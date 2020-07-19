@@ -179,7 +179,8 @@ function fillTextboxesIn() {
             console.log("Error parsing query parameter: "+item);
             return;
         }
-        queryParameters[twoParts[0]] = decodeURIComponent(twoParts[1]);
+        //Remember to replace +s with spaces.
+        queryParameters[twoParts[0]] = decodeURIComponent(twoParts[1]).split("+").join(" ");
     });
 
     //If a name/job/quote was supplied, then fill in the corresponding textbox:
