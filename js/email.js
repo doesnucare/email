@@ -52,7 +52,7 @@ function shuffleNumberedList(items) {
         for (var i = 1; i <= is.length; i++) {
             is[i-1] = i.toString()+". "+is[i-1];
         }
-        return is.join("\n");
+        return is.join("\n\n");
     }
 }
 
@@ -61,40 +61,24 @@ const EMAILS = "presidentaoun@northeastern.edu, office_of_the_president@northeas
 const SUBJECTS = ["{{subject_opener}}: Concerns {{ regarding }}{{ plans_for }} {{ fall_reopening }}",
 "{{subject_opener}}: NU CARE demands {{ regarding }} {{ fall_reopening }}"]
 
-const OPENING = (name, blurb) => 
+const OPENING = (name, position, blurb) => 
 `Hello,
 
-My name is ${name}. I am writing in response to {{ northeastern }}'s fall reopening plan, to express my concern {{ regarding }} its inadequacy in providing a {{ just_safe }} opening for every single member of the Northeastern community and surrounding Boston area. 
+My name is ${name} and as a ${position}, I am deeply concerned about {{ northeastern }}'s {{ fall_reopening }}. ${blurb}
 
-${blurb}
+Therefore, I ask {{ northeastern }} to implement the following five demands to ensure a safe and equitable reopening.`
 
-Providing vague plans on {{ testing_housing }} are all scratching the surface on what Northeastern could and should be doing. If the administration really believes that “maintaining the health and wellbeing of the Northeastern community—and the world beyond our campuses” is paramount, we need you to listen and make a real commitment to the community.
+//The following demands are from the new e-mail script. TO see the original demands, go to https://raw.githubusercontent.com/doesnucare/email/56e1e29144aa2db1476c3f8cd8aa66358a4784e8/js/email.js
+const DEMANDS = ["Northeastern must allow any student to cancel their housing up until their move-in date *without any cancellation charge*. After seeing four clusters of COVID cases pop up within one week at University of North Carolina at Chapel Hill [1], many students are having second thoughts about returning to campus. While we understand Northeastern may be safer than UNC Chapel Hill due to Northeastern's frequent testing, de-densifying campus is still imperative for minimizing the risk of an outbreak. Therefore, Northeastern must allow students to cancel their housing without charge to decrease the number of students who return to campus.",
+"Northeastern must grant any requests from instructors who asked to work remotely and give instructors the option to start teaching remotely at any time. Many Northeastern grad students and faculty have still not heard back about their requests for remote work this Fall 2020 despite being told they will receive a final decision by August 15 [2]. The fact that the university has failed to meet its own self-imposed deadline for releasing decisions is ridiculous, and it is critical that Northeastern allow all faculty and staff who want to work remotely to do so, in order to de-densify campus as much as possible.",
+"Northeastern must commit to guaranteeing adequate PPE and hazard pay for at-risk workers, like dining workers. While Northeastern has said that face coverings will be available on the Boston campus, it has also said that community members are expected to bring their own face coverings. However, if Northeastern does not work to *guarantee* that all workers have access to adequate PPE, workers may need to reuse disposable masks, which puts both their own health and the health of others at risk. Moreover, when asked about hazard pay in an interview with Hunt News, Chancellor Henderson simply said, \"I don’t believe that’s in the planning,\" which is absolutely unacceptable [3]. All NEU workers in hazardous working environments, including subcontractors, deserve to receive hazard pay during the COVID-19 pandemic.",
+"Northeastern must reduce tuition for the 2020-21 academic year for all-online classes, and deliver refunds to students who have already paid tuition. Continuing to raise tuition in the middle of a global pandemic and unprecedented economic crisis is absurd and harms at-risk students the most. Moreover, Northeastern was projected to end the 2020 fiscal year with a $28.5 million budget surplus due to decreased operating costs while campus was closed [4], which shows that having the same tuition price for all-online classes is wholly unnecessary.",
+"Northeastern must be transparent about their emergency plans in case the university needs to transition to all-online classes. For example, when asked by Hunt News about what specific thresholds would make Northeastern close down campus, Senior Vice Chancellor Estabrook simply said, \"There aren't any clear line benchmarks yet,\" which is not transparent at all [5]. In contrast, Brandeis University has said clearly that they will shut down campus if positive test rates exceed 5 percent [6], and Northeastern should set similar thresholds for triggering a campus shutdown. Northeastern should also be clear about what precautions will be taken to minimize the risk to students’ families and hometown communities if dormitories close and students must return home. So far, we have heard almost nothing about contingency plans in the case that campus shuts down, which shows that Northeastern has failed to properly plan for the worst-case scenario."]
 
-I believe that the demands laid out by the Northeastern Coalition for Affordability, Responsibility and Equity (NU CARE) are key and urgent for reopening {{ in_the }} Fall without sacrificing the health and well-being of our {{ students_faculty }}: `
+//Not used any more:
+//const AFTER_DEMANDS = "I am personally endorsing these demands, and I am not alone. NU CARE is supported by Northeastern groups across campus who care about a range of topics such as {{ club_topics }}. Students with diverse interests on campus are coming together to say they care about equity and safety as well as the “experience” the re-opening team has emphasized. These are some of the groups who endorse NU CARE: "
 
-const DEMANDS = ["Tuition must be reduced for all classes that are impacted by a transition to online or hybrid learning, and refunds must be offered for similarly affected Summer 1 and Summer 2 classes. This refers to any class that did not previously have sections offered online, and now only has sections offered online or through NUflex. Without tuition reductions, we will see a higher number of students choosing to defer their education rather than participate in the Fall 2020 semester, even with the advantages of NUflex over a fully online model.", 
-"Both incoming and returning students, including NU.in students, must be able to easily defer their enrollment or take a leave of absence for the Fall 2020 semester, and then resume their education in the Spring 2021 semester. Many students in precarious financial situations will not be making a choice between deferment and enrollment, but deferment and withdrawal from the university. Unless students are given the option to easily defer for this semester, these students may have to leave the university entirely.",
-"Students who, for any reason, do not live on campus during Fall 2020 must not lose their housing guarantee. First and second-year students must also be released from their obligation to live on-campus for the Fall 2020 semester.",
-"The Fall housing cancellation deadline must be extended. Students who have already registered for Fall housing should be able to cancel with no penalty.",
-"Ensure that adequate PPE is available to all students, faculty, and staff - including any contractors or subcontractors. PPE is essential in reducing the spread of COVID-19 and a lack of availability on campus, due to financial, supply, or other reasons, could easily lead to an outbreak. ",
-"Staff exposed to hazardous working environments (such as cleaning and dining staff) should be awarded hazard pay.",
-"Any data collected through the NUPD SafeZone app must be used only for public health purposes. Pledging to use this data only for public health purposes, and not for punitive purposes or OSCCR, would help increase public trust in the SafeZone app, thus improving relations between our student body and NUPD. In the national discussion regarding the ethics and dangers of unregulated surveillance and data collection, it is important for Northeastern to take a stance as a leader in privacy and caution in this discussion.",
-"Northeastern must be transparent regarding NUPD’s role in enforcing social distancing and health measures on campus as well as explicitly detailing what these are to the entire Northeastern community. I was pleased to hear through the town halls that NUPD will not be enforcing social distancing. However, there still needs to be clear transparency about how social distancing will be enforced, so that students and community members can know the rules and feel safe on-campus.",
-"Northeastern must be upfront about any plans to lease additional off-campus properties for student housing and work to offset any gentrification caused by this. Northeastern coexists with the Boston communities around us and gentrification is an issue that can displace these people and businesses unfairly. Offsetting gentrification maintains relationships with Boston communities and provides good PR for Northeastern."]
-
-
-const SHORT_DEMANDS = ["Tuition must be reduced for all classes that are affected by the transition to online or hybrid learning, and refunds must be offered for similarly affected Summer 1 and Summer 2 classes.", 
-"Both incoming and returning students, including NU.in students, must be able to easily defer their enrollment or take a leave of absence for the Fall 2020 semester.",
-"Students who, for any reason, do not live on campus during Fall 2020 must not lose their housing guarantee. First and second-year students must also be released from their obligation to live on-campus for the Fall 2020 semester.",
-"The Fall housing cancellation deadline must be extended. Students who have already registered for Fall housing should be able to cancel with no penalty.",
-"Ensure that adequate PPE is available to all students, faculty, and staff - including any contractors or subcontractors.",
-"Staff exposed to hazardous working environments (such as cleaning and dining staff) should be awarded hazard pay.",
-"Any data collected through the NUPD SafeZone app must be used only for public health purposes.",
-"Northeastern must be transparent regarding NUPD’s role in enforcing social distancing and health measures on campus as well as explicitly detailing what these are to the entire Northeastern community.",
-"Northeastern must be upfront about any plans to lease additional off-campus properties for student housing and work to offset any gentrification caused by this."]
-
-const AFTER_DEMANDS = "I am personally endorsing these demands, and I am not alone. NU CARE is supported by Northeastern groups across campus who care about a range of topics such as {{ club_topics }}. Students with diverse interests on campus are coming together to say they care about equity and safety as well as the “experience” the re-opening team has emphasized. These are some of the groups who endorse NU CARE: "
-
+//Not used any more:
 const CLUBS = ["Northeastern Young Democratic Socialists of America",
 "Progressive Student Alliance",
 "Northeastern College Democrats ",
@@ -109,25 +93,28 @@ const CLUBS = ["Northeastern Young Democratic Socialists of America",
 "National Organization of Minority Architecture Students at Northeastern",
 "American Institute of Architects - Students"]
 
-const CLOSING = "As President Aoun has continued to stress {{ northeastern }}’s pursuit for opportunities to innovate for the future, I look forward to seeing {{ northeastern }} implement these demands and thus seize the chance to be truly innovative in our {{ covid }} response and reopening compared to universities across the country. "
+const CLOSING = "Meeting these five demands are essential to ensuring the safety and well-being of the community as {{ northeastern }} reopens for the Fall 2020 semester. I look forward to seeing {{ northeastern }} commit to these five demands before campus reopens."
 
 const SIGNATURE = (name, position) => 
 `Sincerely,
 ${name},
-${position}`
+${position}
+
+[1] wapo.st/2Ecax98
+[2] bit.ly/328NWTn
+[3] bit.ly/2EjmVnD
+[4] bit.ly/3284meD
+[5] bit.ly/3aEhsUL
+[6] bit.ly/34emnL2`
 
 //Given user's name, position, and reason for supporting NU CARE,
 // generate the to, subject, and body of a possible e-mail
 function generateEmail(name, position, blurb) {
     var subject = Sentencer.make(choice(SUBJECTS));
     var body_raw = 
-    `${OPENING(name, blurb)}
+    `${OPENING(name, position, blurb)}
     
 {{ demands }}
-    
-${AFTER_DEMANDS}
-    
-{{clubs}}
     
 ${CLOSING}
     
@@ -158,7 +145,7 @@ Sentencer.configure({
       students_faculty: shuffleCommaSepListAction(["students", "faculty", "staff", "neighboring communities"]),
       club_topics: shuffleCommaSepListAction(["health", "sports", "politics", "architecture", "climate resiliency"]),
       clubs: shuffleNumberedList(CLUBS),
-      demands: shuffleNumberedList(SHORT_DEMANDS),
+      demands: shuffleNumberedList(DEMANDS),
       northeastern: choiceAction(["Northeastern", "the University"]),
       covid: choiceAction(["COVID-19", "COVID", "Coronavirus"]),
       in_the: choiceAction(["in the", "this"]),
